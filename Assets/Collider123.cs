@@ -12,7 +12,7 @@ public class Collider123 : MonoBehaviour
         Destroy(gameObject);
         pontos += 10f;
         Debug.Log("Esfera Destruida");
-        Debug.Log("Pontos adquiridos =" + pontos);
+        Debug.Log("Pontos adquiridos  =" + pontos);
         }
     }
 }
