@@ -1,0 +1,34 @@
+{
+    "name": "CustomActions",
+    "maps": [
+        {
+            "name": "Main",
+            "id": "819c44e7-b3d8-4eef-a9df-74a49c81c8b5",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "413beb54-b7b9-47cb-8391-4753251d1b91",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c24a9774-92b5-49b6-9de6-1a6991f2e6d0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
