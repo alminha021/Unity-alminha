@@ -8,24 +8,35 @@ public class NPCController : MonoBehaviour
 
     private NavMeshAgent agent;
     private float timer;
+    private bool isInQueue = false;  // Adicionado para controlar se está na fila
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         timer = wanderInterval;  // Iniciar a contagem com o intervalo definido
+
+        // Registra este NPC na fila no controlador
+        FilaTriggerController filaController = FindObjectOfType<FilaTriggerController>();
+        if (filaController != null)
+        {
+            filaController.RegisterNPC(transform);  // Adiciona o NPC à fila
+        }
     }
 
     void Update()
     {
-        // Atualizar o timer
-        timer += Time.deltaTime;
-
-        // Se o tempo passado for maior que o intervalo definido, escolher um novo destino
-        if (timer >= wanderInterval)
+        // Se o NPC não estiver na fila, atualiza o timer
+        if (!isInQueue)
         {
-            Vector3 newPos = RandomNavSphere(transform.position, wanderRadius);
-            agent.SetDestination(newPos);
-            timer = 0;  // Resetar o timer
+            timer += Time.deltaTime;
+
+            // Se o tempo passado for maior que o intervalo definido, escolher um novo destino
+            if (timer >= wanderInterval)
+            {
+                Vector3 newPos = RandomNavSphere(transform.position, wanderRadius);
+                agent.SetDestination(newPos);
+                timer = 0;  // Resetar o timer
+            }
         }
     }
 
@@ -40,5 +51,13 @@ public class NPCController : MonoBehaviour
         NavMesh.SamplePosition(randomDirection, out navHit, dist, NavMesh.AllAreas);
 
         return navHit.position;
+    }
+
+    // Método para mover o NPC para a fila
+    public void MoveToQueue(Transform target)
+    {
+        Debug.Log($"Moving NPC to position: {target.position}");  // Mensagem de depuração
+        agent.SetDestination(target.position);  // Define o destino do NPC
+        isInQueue = true;  // Marcar como estando na fila
     }
 }
