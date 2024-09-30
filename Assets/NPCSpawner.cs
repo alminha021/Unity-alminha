@@ -2,24 +2,36 @@ using UnityEngine;
 
 public class NPCSpawner : MonoBehaviour
 {
-    public GameObject npcPrefab;  // O prefab do NPC a ser instanciado
-    public int npcCount = 5;  // Quantidade de NPCs a serem spawnados
-    public Transform[] spawnPoints;  // Pontos onde os NPCs serão spawnados
+    public GameObject npcPrefab;  // Prefab do NPC
+    public FilaTriggerController filaController;  // Referência ao controlador da fila
 
     void Start()
     {
-        SpawnNPCs();
+        SpawnNPCs();  // Chama o método para spawnar NPCs
     }
 
     void SpawnNPCs()
     {
-        for (int i = 0; i < npcCount; i++)
+        for (int i = 0; i < 5; i++)  // Exemplo: cria 5 NPCs
         {
-            // Selecionar um ponto de spawn aleatório
-            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            GameObject npcInstance = Instantiate(npcPrefab, GetRandomSpawnPosition(), Quaternion.identity);
+            NPCController npcController = npcInstance.GetComponent<NPCController>();
 
-            // Spawnar o NPC no ponto selecionado
-            Instantiate(npcPrefab, spawnPoint.position, spawnPoint.rotation);
+            if (npcController != null)
+            {
+                // Atribui um valor aleatório para o NPC (de 1 a 3 por exemplo)
+                npcController.valorNPC = Random.Range(1, 4);
+
+                // Registra o NPC no FilaTriggerController
+                filaController.RegisterNPC(npcInstance.transform);
+                Debug.Log("NPC registered: " + npcController.valorNPC);
+            }
         }
+    }
+
+    private Vector3 GetRandomSpawnPosition()
+    {
+        // Retorne uma posição aleatória dentro da sua área de spawn
+        return new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
     }
 }

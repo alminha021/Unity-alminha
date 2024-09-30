@@ -1,40 +1,72 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class FilaTriggerController : MonoBehaviour
 {
     public Transform[] filaPoints;  // Array de pontos da fila
-    private Queue<Transform> filaNPCs = new Queue<Transform>();  // Fila dos NPCs
+    private Transform[] npcInFila;  // Array para armazenar NPCs na fila
+    private int currentNPCIndex = 0;  // Índice do NPC atual na fila
+
+    private void Start()
+    {
+        npcInFila = new Transform[filaPoints.Length];  // Inicializa o array de NPCs
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Object entered: " + other.name);  // Verifica qual objeto entrou
-
-        if (other.CompareTag("Player"))  // Verifica se o objeto que entrou é o jogador
+        if (other.CompareTag("Player"))  // Verifica se o objeto que ativou o trigger é o jogador
         {
-            Debug.Log("Player entered the trigger!"); // Mensagem de depuração
-            MoveNPCsToFila();  // Mover NPCs para a fila
+            Debug.Log("Player triggered the FilaTriggerController!");
+            MoveNPCsToFila();  // Move os NPCs para os pontos da fila
         }
     }
 
     public void RegisterNPC(Transform npc)
     {
-        filaNPCs.Enqueue(npc);  // Adiciona o NPC à fila
+        if (currentNPCIndex < filaPoints.Length)
+        {
+            npcInFila[currentNPCIndex] = npc;  // Adiciona o NPC ao array
+            currentNPCIndex++;
+        }
     }
 
     private void MoveNPCsToFila()
     {
-        int i = 0;
-        while (filaNPCs.Count > 0 && i < filaPoints.Length)
+        for (int i = 0; i < currentNPCIndex && i < filaPoints.Length; i++)
         {
-            Transform npc = filaNPCs.Dequeue();  // Remove o NPC da fila
-            Debug.Log($"Moving NPC: {npc.name} to point: {filaPoints[i].name}");  // Mensagem de depuração
-            NPCController npcController = npc.GetComponent<NPCController>();
-            if (npcController != null)
+            if (npcInFila[i] != null)
             {
-                npcController.MoveToQueue(filaPoints[i]);  // Mover o NPC para o ponto da fila
+                NPCController npcController = npcInFila[i].GetComponent<NPCController>();
+                if (npcController != null)
+                {
+                    npcController.MoveToQueue(filaPoints[i]);  // Move o NPC para o ponto correspondente
+                }
             }
-            i++;
         }
+    }
+
+    // Remove o primeiro NPC da fila e reorganiza
+    public void RemoveFirstNPCAndUpdateQueue()
+    {
+        if (currentNPCIndex > 0)
+        {
+            npcInFila[0].GetComponent<NPCController>().LeaveQueue();  // Permite que o NPC saia da fila
+            // Reorganiza os NPCs na fila
+            for (int i = 1; i < currentNPCIndex; i++)
+            {
+                npcInFila[i - 1] = npcInFila[i];
+            }
+            npcInFila[currentNPCIndex - 1] = null;  // Limpa a última posição
+            currentNPCIndex--;
+        }
+    }
+
+    // Retorna o primeiro NPC da fila
+    public Transform GetFirstNPC()
+    {
+        if (currentNPCIndex > 0)
+        {
+            return npcInFila[0];  // Retorna o primeiro NPC
+        }
+        return null;
     }
 }

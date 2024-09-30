@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3279313460058685040}
   - component: {fileID: 4153910327239579717}
   m_Layer: 0
-  m_Name: Npc
+  m_Name: Npc 2
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6c79b168de0ba714a94a80ba5d1e6559, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -143,6 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a3be817f51cb3145a0a16c6bbab3e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  valorNPC: 1
+  valorNPC: 2
   wanderRadius: 10
   wanderInterval: 5
