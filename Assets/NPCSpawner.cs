@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class NPCSpawner : MonoBehaviour
 {
-    public GameObject npcPrefab;  // Prefab do NPC
+    public GameObject[] npcPrefabs;  // Array de diferentes prefabs de NPC
     public FilaTriggerController filaController;  // Referência ao controlador da fila
+    public int npcCount = 5;  // Quantidade de NPCs para spawnar
 
     void Start()
     {
@@ -12,16 +13,19 @@ public class NPCSpawner : MonoBehaviour
 
     void SpawnNPCs()
     {
-        for (int i = 0; i < 5; i++)  // Exemplo: cria 5 NPCs
+        for (int i = 0; i < npcCount; i++)  // Exemplo: cria uma quantidade de NPCs com base em npcCount
         {
+            // Seleciona um prefab aleatório da lista de npcPrefabs
+            GameObject npcPrefab = npcPrefabs[Random.Range(0, npcPrefabs.Length)];
+
+            // Instancia o NPC na cena
             GameObject npcInstance = Instantiate(npcPrefab, GetRandomSpawnPosition(), Quaternion.identity);
+
             NPCController npcController = npcInstance.GetComponent<NPCController>();
 
             if (npcController != null)
             {
                 // Atribui um valor aleatório para o NPC (de 1 a 3 por exemplo)
-                //Substituir por doenças pre-definidas, cada uma com seu tratamento
-                //ou apenas adicionar o nome do doença, e manter o numero como sendo o tratamento
                 npcController.valorNPC = Random.Range(1, 4);
 
                 // Registra o NPC no FilaTriggerController
@@ -33,7 +37,7 @@ public class NPCSpawner : MonoBehaviour
 
     private Vector3 GetRandomSpawnPosition()
     {
-        // Retorne uma posição aleatória dentro da sua área de spawn
+        // Retorna uma posição aleatória dentro da sua área de spawn
         return new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
     }
 }
