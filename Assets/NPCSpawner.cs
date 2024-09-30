@@ -20,6 +20,8 @@ public class NPCSpawner : MonoBehaviour
             if (npcController != null)
             {
                 // Atribui um valor aleatório para o NPC (de 1 a 3 por exemplo)
+                //Substituir por doenças pre-definidas, cada uma com seu tratamento
+                //ou apenas adicionar o nome do doença, e manter o numero como sendo o tratamento
                 npcController.valorNPC = Random.Range(1, 4);
 
                 // Registra o NPC no FilaTriggerController
