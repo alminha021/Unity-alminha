@@ -144,5 +144,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   valorNPC: 1
-  wanderRadius: 10
-  wanderInterval: 5

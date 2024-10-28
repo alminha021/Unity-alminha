@@ -38,6 +38,6 @@ public class NPCSpawner : MonoBehaviour
     private Vector3 GetRandomSpawnPosition()
     {
         // Retorna uma posição aleatória dentro da sua área de spawn
-        return new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+        return new Vector3(Random.Range(-10f, -5f), 0.42f, -5f);
     }
 }

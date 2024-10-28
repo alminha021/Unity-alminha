@@ -49,7 +49,7 @@ public class FilaTriggerController : MonoBehaviour
     {
         if (currentNPCIndex > 0)
         {
-            npcInFila[0].GetComponent<NPCController>().LeaveQueue();  // Permite que o NPC saia da fila
+            npcInFila[0].GetComponent<NPCController>().MoveToDestination(null);  // Limpa o destino do primeiro NPC
             // Reorganiza os NPCs na fila
             for (int i = 1; i < currentNPCIndex; i++)
             {
