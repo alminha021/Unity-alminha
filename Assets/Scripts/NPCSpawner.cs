@@ -3,41 +3,46 @@ using UnityEngine;
 public class NPCSpawner : MonoBehaviour
 {
     public GameObject[] npcPrefabs;  // Array de diferentes prefabs de NPC
-    public FilaTriggerController filaController;  // Referência ao controlador da fila
+    public FilaTriggerCtrl filaController;  // Referência ao controlador da fila
     public int npcCount = 5;  // Quantidade de NPCs para spawnar
+    private BoxCollider spawnArea;
 
     void Start()
     {
-        SpawnNPCs();  // Chama o método para spawnar NPCs
+        spawnArea = GetComponent<BoxCollider>();  // Obtém o BoxCollider para a área de spawn
+        SpawnNPCs();
     }
 
     void SpawnNPCs()
     {
-        for (int i = 0; i < npcCount; i++)  // Exemplo: cria uma quantidade de NPCs com base em npcCount
+        for (int i = 0; i < 6; i++)
         {
-            // Seleciona um prefab aleatório da lista de npcPrefabs
+            Debug.Log("spawn");
             GameObject npcPrefab = npcPrefabs[Random.Range(0, npcPrefabs.Length)];
-
-            // Instancia o NPC na cena
-            GameObject npcInstance = Instantiate(npcPrefab, GetRandomSpawnPosition(), Quaternion.identity);
-
-            NPCController npcController = npcInstance.GetComponent<NPCController>();
-
+            Vector3 spawnPosition = GetRandomPositionWithinArea();
+            GameObject npcInstance = Instantiate(npcPrefab, spawnPosition, Quaternion.identity);
+            Debug.Log("cheguei");
+            NPCCtrl npcController = npcInstance.GetComponent<NPCCtrl>();
+            Debug.Log("cheguei2");
             if (npcController != null)
             {
-                // Atribui um valor aleatório para o NPC (de 1 a 3 por exemplo)
+                Debug.Log("cheguei3");
                 npcController.valorNPC = Random.Range(1, 4);
-
-                // Registra o NPC no FilaTriggerController
                 filaController.RegisterNPC(npcInstance.transform);
                 Debug.Log("NPC registered: " + npcController.valorNPC);
             }
+            Debug.Log("fim");
         }
     }
 
-    private Vector3 GetRandomSpawnPosition()
+    private Vector3 GetRandomPositionWithinArea()
     {
-        // Retorna uma posição aleatória dentro da sua área de spawn
-        return new Vector3(Random.Range(-10f, -5f), 0.42f, -5f);
+        Vector3 basePosition = spawnArea.transform.position;
+        Vector3 size = spawnArea.size;
+
+        float randomX = Random.Range(-size.x / 2, size.x / 2);
+        float randomZ = Random.Range(-size.z / 2, size.z / 2);
+
+        return new Vector3(basePosition.x + randomX, basePosition.y, basePosition.z + randomZ);
     }
 }

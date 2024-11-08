@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPCController : MonoBehaviour
+public class NPCCtrl : MonoBehaviour
 {
     public int valorNPC;  // Valor que define o destino do NPC
     private NavMeshAgent agent;

@@ -904,8 +904,8 @@ GameObject:
   - component: {fileID: 546145665901306251}
   - component: {fileID: -7226518664810851518}
   - component: {fileID: -1827832134830819554}
-  - component: {fileID: -9140133020243522979}
   - component: {fileID: 8697884905748067625}
+  - component: {fileID: 6168437574355577816}
   m_Layer: 0
   m_Name: NPC01 1
   m_TagString: NPC
@@ -1038,19 +1038,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-9140133020243522979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1475707269996172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a3be817f51cb3145a0a16c6bbab3e4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  valorNPC: 1
 --- !u!54 &8697884905748067625
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1078,6 +1065,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6168437574355577816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475707269996172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3be817f51cb3145a0a16c6bbab3e4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  valorNPC: 0
 --- !u!1 &1493786332724964
 GameObject:
   m_ObjectHideFlags: 0
