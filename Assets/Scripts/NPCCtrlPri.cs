@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPCCtrl : MonoBehaviour
+public class NPCCtrlPri : MonoBehaviour
 {
     public int valorNPC;
     private NavMeshAgent agent;
@@ -17,7 +17,7 @@ public class NPCCtrl : MonoBehaviour
         if (agent != null && target != null)
         {
             agent.SetDestination(target.position);
-            Debug.Log("Moving NPC to queue point at: " + target.position);
+            Debug.Log("Moving Priority NPC to queue point at: " + target.position);
         }
     }
 
@@ -26,7 +26,7 @@ public class NPCCtrl : MonoBehaviour
         if (agent != null && destination != null)
         {
             agent.SetDestination(destination.position);
-            hasReachedRoom = true;  // Marcamos que o NPC está indo para uma das rooms finais
+            hasReachedRoom = true;  // Marcar que o NPC está indo para a sala
             Invoke("DestroyNPC", 15f);  // Começa a contagem para destruir o NPC após 15 segundos
         }
     }
@@ -36,7 +36,7 @@ public class NPCCtrl : MonoBehaviour
         if (hasReachedRoom)
         {
             Destroy(gameObject);
-            Debug.Log("NPC destroyed after reaching the room");
+            Debug.Log("Priority NPC destroyed after reaching the room");
         }
     }
 }

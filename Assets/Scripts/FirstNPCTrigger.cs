@@ -3,18 +3,19 @@ using UnityEngine.UI;
 
 public class FirstNPCTrigger : MonoBehaviour
 {
-    public GameObject popupPanel;    // Referência ao popup de UI
-    public Button actionButton;      // Referência ao botão no popup
-    public FilaTriggerCtrl filaController; // Referência ao controlador da fila
-    public Transform destino1;       // Destino para NPCs com valor 1
-    public Transform destino2;       // Destino para NPCs com valor 2
-    public Transform destino3;       // Destino para NPCs com valor 3
-    private int totalPoints = 0;     // Total de pontos acumulados
+    public GameObject popupPanel;
+    public Button actionButton;
+    public FilaTriggerCtrl filaController; // Fila regular
+    public FilaTriggerPriCtrl filaControllerPri; // Fila prioritária
+    public Transform destino1;
+    public Transform destino2;
+    public Transform destino3;
+    private int totalPoints = 0;
 
     private void Start()
     {
-        popupPanel.SetActive(false); // Inicia com o popup escondido
-        actionButton.onClick.AddListener(OnActionButtonClick); // Configura o botão para acionar o método
+        popupPanel.SetActive(false);
+        actionButton.onClick.AddListener(OnActionButtonClick);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,53 +23,108 @@ public class FirstNPCTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player triggered first NPC interaction!");
-            OpenPopup(); // Abre o popup quando o jogador interage
+            OpenPopup();
         }
     }
 
     private void OpenPopup()
     {
-        popupPanel.SetActive(true); // Ativa o popup
+        popupPanel.SetActive(true);
     }
 
     public void OnActionButtonClick()
     {
-        // Adiciona 10 pontos e mostra no console
-        totalPoints += 10;
-        Debug.Log("+10 pontos! Total parcial: " + totalPoints);
+        // Verificar se há um NPC na fila prioritária primeiro
+        Transform firstNPC = filaControllerPri.GetFirstNPC(); 
 
-        MoveFirstNPC(); // Move o NPC após o clique
-        ClosePopup();   // Fecha o popup após a ação
+        if (firstNPC == null) // Se não houver NPC na fila prioritária, verificar na fila regular
+        {
+            firstNPC = filaController.GetFirstNPC();
+        }
+
+        if (firstNPC != null)
+        {
+            totalPoints += 10;
+            Debug.Log("+10 pontos! Total parcial: " + totalPoints);
+
+            MoveFirstNPC(firstNPC);
+        }
+        else
+        {
+            Debug.Log("No more NPCs to move.");
+        }
+
+        ClosePopup();
     }
 
     private void ClosePopup()
     {
-        popupPanel.SetActive(false); // Fecha o popup
+        popupPanel.SetActive(false);
     }
 
-    private void MoveFirstNPC()
+    private void MoveFirstNPC(Transform firstNPC)
     {
-        Transform firstNPC = filaController.GetFirstNPC(); // Obtém o primeiro NPC da fila
-        if (firstNPC != null)
+        // Verificar se o NPC é da fila prioritária ou da fila regular
+        NPCCtrl npcController = firstNPC.GetComponent<NPCCtrl>();  // Para a fila regular
+        if (npcController != null)  // Se for um NPC da fila regular
         {
-            NPCCtrl npcController = firstNPC.GetComponent<NPCCtrl>(); // Mudado para NPCCtrl conforme seu código
-            if (npcController != null)
+            MoveNPC(npcController, filaController, firstNPC);
+        }
+        else
+        {
+            NPCCtrlPri npcControllerPri = firstNPC.GetComponent<NPCCtrlPri>();  // Para a fila prioritária
+            if (npcControllerPri != null)  // Se for um NPC da fila prioritária
             {
-                switch (npcController.valorNPC)
-                {
-                    case 1:
-                        npcController.MoveToQueue(destino1); // Move o NPC para o destino 1
-                        break;
-                    case 2:
-                        npcController.MoveToQueue(destino2); // Move o NPC para o destino 2
-                        break;
-                    case 3:
-                        npcController.MoveToQueue(destino3); // Move o NPC para o destino 3
-                        break;
-                }
-
-                filaController.RemoveFirstNPCAndUpdateQueue(); // Atualiza a fila
+                MoveNPC(npcControllerPri, filaControllerPri, firstNPC);
             }
         }
+    }
+
+    private void MoveNPC(NPCCtrl npcController, FilaTriggerCtrl filaCtrl, Transform npc)
+    {
+        Transform destino = null;
+        switch (npcController.valorNPC)
+        {
+            case 1:
+                destino = destino1;
+                break;
+            case 2:
+                destino = destino2;
+                break;
+            case 3:
+                destino = destino3;
+                break;
+        }
+
+        if (destino != null)
+        {
+            npcController.MoveToDestination(destino);  // Move o NPC da fila regular para o destino
+        }
+
+        filaCtrl.RemoveFirstNPCAndUpdateQueue();  // Remove da fila regular
+    }
+
+    private void MoveNPC(NPCCtrlPri npcControllerPri, FilaTriggerPriCtrl filaCtrlPri, Transform npc)
+    {
+        Transform destino = null;
+        switch (npcControllerPri.valorNPC)
+        {
+            case 1:
+                destino = destino1;
+                break;
+            case 2:
+                destino = destino2;
+                break;
+            case 3:
+                destino = destino3;
+                break;
+        }
+
+        if (destino != null)
+        {
+            npcControllerPri.MoveToDestination(destino);  // Move o NPC da fila prioritária para o destino
+        }
+
+        filaCtrlPri.RemoveFirstNPCAndUpdateQueue();  // Remove da fila prioritária
     }
 }

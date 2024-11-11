@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class FilaTriggerCtrl : MonoBehaviour
+public class FilaTriggerPriCtrl : MonoBehaviour
 {
-    public Transform[] filaPoints;
-    private Transform[] npcInFila;
-    private int currentNPCIndex = 0;
+    public Transform[] filaPoints;  // Pontos para onde os NPCs devem ir
+    private Transform[] npcInFila;  // NPCs que estão na fila
+    private int currentNPCIndex = 0;  // Índice atual na fila
 
     private void Start()
     {
@@ -15,7 +15,7 @@ public class FilaTriggerCtrl : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player triggered the FilaTriggerController!");
+            Debug.Log("Player triggered the FilaTriggerPriCtrl!");
             MoveNPCsToFila();
         }
     }
@@ -35,10 +35,10 @@ public class FilaTriggerCtrl : MonoBehaviour
         {
             if (npcInFila[i] != null)
             {
-                NPCCtrl npcController = npcInFila[i].GetComponent<NPCCtrl>();
+                NPCCtrlPri npcController = npcInFila[i].GetComponent<NPCCtrlPri>();
                 if (npcController != null)
                 {
-                    Debug.Log("Moving NPC " + i + " to queue point");
+                    Debug.Log("Moving Priority NPC " + i + " to queue point");
                     npcController.MoveToQueue(filaPoints[i]);
                 }
             }
@@ -49,7 +49,7 @@ public class FilaTriggerCtrl : MonoBehaviour
     {
         if (currentNPCIndex > 0)
         {
-            npcInFila[0].GetComponent<NPCCtrl>().MoveToDestination(null);
+            npcInFila[0].GetComponent<NPCCtrlPri>().MoveToDestination(null);
             for (int i = 1; i < currentNPCIndex; i++)
             {
                 npcInFila[i - 1] = npcInFila[i];
