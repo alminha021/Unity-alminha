@@ -10,6 +10,14 @@ public class NPCPriSpawner : MonoBehaviour
     void Start()
     {
         spawnArea = GetComponent<BoxCollider>();  // Obtém o BoxCollider para a área de spawn
+        
+        // Verificar se a filaControllerPri está atribuída
+        if (filaControllerPri == null)
+        {
+            Debug.LogError("filaControllerPri não está atribuída no NPCPriSpawner!");
+            return; // Se não estiver atribuída, não continua a execução
+        }
+
         SpawnNPCs();
     }
 

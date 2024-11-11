@@ -370,6 +370,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 95277473678829956, guid: d55204eb3d9c1bf41a89bdbf8ecec5f0, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c0ee01244ea01b747b98df74521a331c, type: 2}
+    - target: {fileID: 95277473678829956, guid: d55204eb3d9c1bf41a89bdbf8ecec5f0, type: 3}
       propertyPath: m_UpdateMode
       value: 1
       objectReference: {fileID: 0}
@@ -2286,7 +2290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 926405342}
   - component: {fileID: 926405341}
-  - component: {fileID: 926405340}
+  - component: {fileID: 926405343}
   m_Layer: 0
   m_Name: NPCSpawnerPri
   m_TagString: Untagged
@@ -2294,22 +2298,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &926405340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926405339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dad9ca222a6e1ee4ab9183611ba60fb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npcPrefabs:
-  - {fileID: 1475707269996172, guid: fb94a9b9a6bf65548986271c637fe5ef, type: 3}
-  filaControllerPri: {fileID: 1434949765}
-  npcCount: 2
 --- !u!65 &926405341
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2340,12 +2328,28 @@ Transform:
   m_GameObject: {fileID: 926405339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.66, y: 4.95, z: -189.92}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 16.76, y: 4.95, z: -191.22}
+  m_LocalScale: {x: 0.33706, y: 1, z: 0.35712}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &926405343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926405339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad9ca222a6e1ee4ab9183611ba60fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcPrefabs:
+  - {fileID: 1475707269996172, guid: fb94a9b9a6bf65548986271c637fe5ef, type: 3}
+  filaControllerPri: {fileID: 1434949769}
+  npcCount: 2
 --- !u!1001 &954823243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3938,7 +3942,7 @@ GameObject:
   - component: {fileID: 1434949768}
   - component: {fileID: 1434949767}
   - component: {fileID: 1434949766}
-  - component: {fileID: 1434949765}
+  - component: {fileID: 1434949769}
   m_Layer: 0
   m_Name: CubePrifila
   m_TagString: Untagged
@@ -3961,21 +3965,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 696426942}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1434949765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434949763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 181bc20278828f74592a4a53e4dc50e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  filaPoints:
-  - {fileID: 1427840301}
-  - {fileID: 2007320429}
 --- !u!65 &1434949766
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4047,6 +4036,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434949763}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1434949769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434949763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181bc20278828f74592a4a53e4dc50e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filaPoints:
+  - {fileID: 1427840301}
+  - {fileID: 2007320429}
 --- !u!4 &1461197124 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4690120541053710, guid: 8f017b6bdfed8d34abbd128cc98213e2, type: 3}
@@ -5662,7 +5666,7 @@ MonoBehaviour:
   popupPanel: {fileID: 1709182739}
   actionButton: {fileID: 326525434}
   filaController: {fileID: 53163874}
-  filaControllerPri: {fileID: 1434949765}
+  filaControllerPri: {fileID: 1434949769}
   destino1: {fileID: 1961166115}
   destino2: {fileID: 1004856702}
   destino3: {fileID: 267671298}
