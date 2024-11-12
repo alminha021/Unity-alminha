@@ -5,11 +5,27 @@ public class NPCCtrlPri : MonoBehaviour
 {
     public int valorNPC;
     private NavMeshAgent agent;
+    private Animator animator;
+    public float rotationSpeed = 5f;
     private bool hasReachedRoom = false;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (agent != null && agent.velocity.sqrMagnitude > 0.01f)
+        {
+            // Rotaciona para olhar na direção do movimento
+            Quaternion targetRotation = Quaternion.LookRotation(agent.velocity.normalized);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
+
+        // Define a animação de movimento
+        animator.SetBool("isRunning", agent.velocity.sqrMagnitude > 0.01f);
     }
 
     public void MoveToQueue(Transform target)
@@ -26,8 +42,8 @@ public class NPCCtrlPri : MonoBehaviour
         if (agent != null && destination != null)
         {
             agent.SetDestination(destination.position);
-            hasReachedRoom = true;  // Marcar que o NPC está indo para a sala
-            Invoke("DestroyNPC", 15f);  // Começa a contagem para destruir o NPC após 15 segundos
+            hasReachedRoom = true;
+            Invoke("DestroyNPC", 15f);
         }
     }
 
