@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class NPCCtrlPri : MonoBehaviour
 {
-    public int valorNPC;
+    public int valorNPC; // O valor do NPC que vai definir a resposta dele
     private NavMeshAgent agent;
     private Animator animator;
     public float rotationSpeed = 5f;

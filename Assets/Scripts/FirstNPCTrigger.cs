@@ -4,18 +4,34 @@ using UnityEngine.UI;
 public class FirstNPCTrigger : MonoBehaviour
 {
     public GameObject popupPanel;
-    public Button actionButton;
+    public Button room1Button;
+    public Button room2Button;
+    public Button room3Button;
     public FilaTriggerCtrl filaController; // Fila regular
     public FilaTriggerPriCtrl filaControllerPri; // Fila prioritária
     public Transform destino1;
     public Transform destino2;
     public Transform destino3;
+    public PlayerController playerController; // Referência ao controlador do player
     private int totalPoints = 0;
+    private bool playerInTrigger = false; // Verifica se o player está no trigger
 
     private void Start()
     {
         popupPanel.SetActive(false);
-        actionButton.onClick.AddListener(OnActionButtonClick);
+
+        // Adiciona a função de clique aos botões
+        room1Button.onClick.AddListener(() => OnRoomButtonClick(1));
+        room2Button.onClick.AddListener(() => OnRoomButtonClick(2));
+        room3Button.onClick.AddListener(() => OnRoomButtonClick(3));
+    }
+
+    private void Update()
+    {
+        if (playerInTrigger && Input.GetKeyDown(KeyCode.T))
+        {
+            OpenPopup(); // Abre o popup ao pressionar 'T'
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,108 +39,129 @@ public class FirstNPCTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player triggered first NPC interaction!");
-            OpenPopup();
+            playerInTrigger = true; // Marca que o player entrou no trigger
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInTrigger = false; // Marca que o player saiu do trigger
         }
     }
 
     private void OpenPopup()
     {
         popupPanel.SetActive(true);
-    }
-
-    public void OnActionButtonClick()
-    {
-        // Verificar se há um NPC na fila prioritária primeiro
-        Transform firstNPC = filaControllerPri.GetFirstNPC(); 
-
-        if (firstNPC == null) // Se não houver NPC na fila prioritária, verificar na fila regular
-        {
-            firstNPC = filaController.GetFirstNPC();
-        }
-
-        if (firstNPC != null)
-        {
-            totalPoints += 10;
-            Debug.Log("+10 pontos! Total parcial: " + totalPoints);
-
-            MoveFirstNPC(firstNPC);
-        }
-        else
-        {
-            Debug.Log("No more NPCs to move.");
-        }
-
-        ClosePopup();
+        playerController.enabled = false; // Desativa o movimento do player
     }
 
     private void ClosePopup()
     {
         popupPanel.SetActive(false);
+        playerController.enabled = true; // Reativa o movimento do player
     }
 
-    private void MoveFirstNPC(Transform firstNPC)
+    private void OnRoomButtonClick(int selectedRoom)
     {
-        // Verificar se o NPC é da fila prioritária ou da fila regular
-        NPCCtrl npcController = firstNPC.GetComponent<NPCCtrl>();  // Para a fila regular
-        if (npcController != null)  // Se for um NPC da fila regular
+        // Verifica qual NPC é o próximo
+        Transform nextNPC = GetNextNPC();
+
+        if (nextNPC != null)
         {
-            MoveNPC(npcController, filaController, firstNPC);
+            int correctRoom = GetNPCDestinationRoom(nextNPC);
+
+            if (selectedRoom == correctRoom)
+            {
+                totalPoints += 10;
+                Debug.Log("CORRETO! +10 pontos. Total: " + totalPoints);
+            }
+            else
+            {
+                Debug.Log("ERRADO! O NPC foi enviado para a sala " + selectedRoom);
+            }
+
+            // Mover o NPC para a sala selecionada
+            MoveNPCToRoom(nextNPC, selectedRoom);
         }
         else
         {
-            NPCCtrlPri npcControllerPri = firstNPC.GetComponent<NPCCtrlPri>();  // Para a fila prioritária
-            if (npcControllerPri != null)  // Se for um NPC da fila prioritária
+            Debug.Log("Não há NPCs disponíveis.");
+        }
+
+        ClosePopup(); // Fecha o popup após a escolha
+    }
+
+    private void MoveNPCToRoom(Transform npc, int room)
+    {
+        Transform destino = null;
+
+        // Determina o destino do NPC baseado na sala selecionada
+        switch (room)
+        {
+            case 1:
+                destino = destino1;
+                break;
+            case 2:
+                destino = destino2;
+                break;
+            case 3:
+                destino = destino3;
+                break;
+        }
+
+        if (destino != null)
+        {
+            // Move o NPC para a sala selecionada
+            NPCCtrl npcController = npc.GetComponent<NPCCtrl>();
+            if (npcController != null)
             {
-                MoveNPC(npcControllerPri, filaControllerPri, firstNPC);
+                npcController.MoveToDestination(destino);
+                filaController.RemoveFirstNPCAndUpdateQueue();
+            }
+            else
+            {
+                NPCCtrlPri npcControllerPri = npc.GetComponent<NPCCtrlPri>();
+                if (npcControllerPri != null)
+                {
+                    npcControllerPri.MoveToDestination(destino);
+                    filaControllerPri.RemoveFirstNPCAndUpdateQueue();
+                }
             }
         }
     }
 
-    private void MoveNPC(NPCCtrl npcController, FilaTriggerCtrl filaCtrl, Transform npc)
+    public Transform GetNextNPC()
     {
-        Transform destino = null;
-        switch (npcController.valorNPC)
+        // Verifica a fila prioritária primeiro, depois a fila regular
+        Transform nextNPC = null;
+        if (filaControllerPri.GetFirstNPC() != null)
         {
-            case 1:
-                destino = destino1;
-                break;
-            case 2:
-                destino = destino2;
-                break;
-            case 3:
-                destino = destino3;
-                break;
+            nextNPC = filaControllerPri.GetFirstNPC();
         }
-
-        if (destino != null)
+        else if (filaController.GetFirstNPC() != null)
         {
-            npcController.MoveToDestination(destino);  // Move o NPC da fila regular para o destino
+            nextNPC = filaController.GetFirstNPC();
         }
-
-        filaCtrl.RemoveFirstNPCAndUpdateQueue();  // Remove da fila regular
+        return nextNPC;
     }
 
-    private void MoveNPC(NPCCtrlPri npcControllerPri, FilaTriggerPriCtrl filaCtrlPri, Transform npc)
+    public int GetNPCDestinationRoom(Transform npc)
     {
-        Transform destino = null;
-        switch (npcControllerPri.valorNPC)
+        // Obtém o valor associado ao NPC para determinar sua sala correta
+        NPCCtrl npcCtrl = npc.GetComponent<NPCCtrl>();
+        if (npcCtrl != null)
         {
-            case 1:
-                destino = destino1;
-                break;
-            case 2:
-                destino = destino2;
-                break;
-            case 3:
-                destino = destino3;
-                break;
+            return npcCtrl.valorNPC;
         }
 
-        if (destino != null)
+        NPCCtrlPri npcCtrlPri = npc.GetComponent<NPCCtrlPri>();
+        if (npcCtrlPri != null)
         {
-            npcControllerPri.MoveToDestination(destino);  // Move o NPC da fila prioritária para o destino
+            return npcCtrlPri.valorNPC;
         }
 
-        filaCtrlPri.RemoveFirstNPCAndUpdateQueue();  // Remove da fila prioritária
+        return -1; // Caso não encontre o NPC ou o tipo correto
     }
 }

@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UI;  // Adicione esta linha para usar o Button
 
 public class NPCChatController : MonoBehaviour
 {
     public GameObject chatPanel;
     public TMP_InputField inputQuestion;  // TextMesh Pro InputField
     public TMP_Text textResponse;         // TextMesh Pro Text
-    public Button askButton;
+    public Button askButton;              // Botão para fazer perguntas
+    public FirstNPCTrigger firstNPCTrigger; // Referência ao FirstNPCTrigger
 
     private Dictionary<string, string> questionAnswers = new Dictionary<string, string>();
 
@@ -30,7 +31,7 @@ public class NPCChatController : MonoBehaviour
     {
         string playerQuestion = inputQuestion.text.ToLower();
         string bestMatch = FindClosestQuestion(playerQuestion);
-        
+
         if (!string.IsNullOrEmpty(bestMatch))
         {
             textResponse.text = questionAnswers[bestMatch];
@@ -40,10 +41,17 @@ public class NPCChatController : MonoBehaviour
             textResponse.text = "Desculpe, não entendi a pergunta.";
         }
 
+        // Obtém o valor do destino correto do NPC
+        Transform nextNPC = firstNPCTrigger.GetNextNPC();
+        if (nextNPC != null)
+        {
+            int correctRoom = firstNPCTrigger.GetNPCDestinationRoom(nextNPC);
+            textResponse.text += $" O destino correto é a sala {correctRoom}.";
+        }
+
         inputQuestion.text = ""; // Limpa o campo de entrada após a pergunta
     }
 
-    // Função para encontrar a pergunta mais próxima usando distância de Levenshtein
     private string FindClosestQuestion(string inputQuestion)
     {
         string closestQuestion = null;
@@ -63,7 +71,6 @@ public class NPCChatController : MonoBehaviour
         return shortestDistance <= 5 ? closestQuestion : null;
     }
 
-    // Algoritmo de distância de Levenshtein para calcular similaridade
     private int LevenshteinDistance(string source, string target)
     {
         int[,] matrix = new int[source.Length + 1, target.Length + 1];
