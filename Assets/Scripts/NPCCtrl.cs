@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class NPCCtrl : MonoBehaviour
 {
     public int valorNPC;
+    public PatientCondition patientCondition;
     private NavMeshAgent agent;
     private Animator animator;
     public float rotationSpeed = 5f;

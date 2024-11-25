@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class NPCSpawner : MonoBehaviour
 {
+    public PatientConditionLoader conditionLoader;
     public GameObject[] npcPrefabs;  // Array de diferentes prefabs de NPC
     public FilaTriggerCtrl filaController;  // Referência ao controlador da fila
     public int npcCount = 5;  // Quantidade de NPCs para spawnar
@@ -28,11 +29,20 @@ public class NPCSpawner : MonoBehaviour
             {
                 Debug.Log("cheguei3");
                 npcController.valorNPC = Random.Range(1, 4);
+
+                npcController.patientCondition = randomPatientCondition();
+
+                // Registra o NPC no FilaTriggerController
                 filaController.RegisterNPC(npcInstance.transform);
-                Debug.Log("NPC registered: " + npcController.valorNPC);
+                Debug.Log("NPC registered: " + npcController.valorNPC + " with " + npcController.patientCondition.disease);
             }
             Debug.Log("fim");
         }
+    }
+
+    private PatientCondition randomPatientCondition()
+    {
+        return conditionLoader.patientConditions[Random.Range(0, conditionLoader.patientConditions.Length)];
     }
 
     private Vector3 GetRandomPositionWithinArea()

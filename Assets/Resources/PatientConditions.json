@@ -1,0 +1,50 @@
+{
+    "conditions":
+    [
+        {
+            "age": 45,
+            "sex": "Masculino",
+            "disease": "Gripe",
+            "symptoms":
+            [
+                "Febre",
+                "Tosse",
+                "Dor no corpo"
+            ],
+            "treatment":
+            [
+                "Descanso",
+                "Hidratação"
+            ]
+        },
+        {
+            "age": 30,
+            "sex": "Feminino",
+            "disease": "Infecção",
+            "symptoms":
+            [
+                "Vermelhidão",
+                "Suor"
+            ],
+            "treatment":
+            [
+                "Antibiótico",
+                "Analgésico"
+            ]
+        },
+        {
+            "age": 10,
+            "sex": "Feminino",
+            "disease": "Infecção",
+            "symptoms":
+            [
+                "Tosse",
+                "Febre"
+            ],
+            "treatment":
+            [
+                "Analgésico"
+            ]
+        }
+    ]
+}
