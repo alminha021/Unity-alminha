@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class NPCController : MonoBehaviour
 {
     public int valorNPC;  // Valor que define o destino do NPC
+    public PatientCondition patientCondition;
     private NavMeshAgent agent;
 
     private void Awake()
