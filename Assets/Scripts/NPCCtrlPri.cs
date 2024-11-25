@@ -43,7 +43,7 @@ public class NPCCtrlPri : MonoBehaviour
         {
             agent.SetDestination(destination.position);
             hasReachedRoom = true;
-            Invoke("DestroyNPC", 15f);
+            //Invoke("DestroyNPC", 15f);
         }
     }
 
@@ -51,8 +51,8 @@ public class NPCCtrlPri : MonoBehaviour
     {
         if (hasReachedRoom)
         {
-            Destroy(gameObject);
-            Debug.Log("Priority NPC destroyed after reaching the room");
+            //Destroy(gameObject);
+            Debug.Log("Priority NPC destroyed debugprictrl");
         }
     }
 }

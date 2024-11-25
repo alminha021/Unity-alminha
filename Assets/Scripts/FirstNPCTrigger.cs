@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class FirstNPCTrigger : MonoBehaviour
 {
@@ -12,9 +13,11 @@ public class FirstNPCTrigger : MonoBehaviour
     public Transform destino1;
     public Transform destino2;
     public Transform destino3;
+    public Transform posicaoIntermediaria; // Posição intermediária
     public PlayerController playerController; // Referência ao controlador do player
     private int totalPoints = 0;
     private bool playerInTrigger = false; // Verifica se o player está no trigger
+    public float tempoParaDesaparecer = 30f; // Tempo para o NPC desaparecer
 
     private void Start()
     {
@@ -30,7 +33,7 @@ public class FirstNPCTrigger : MonoBehaviour
     {
         if (playerInTrigger && Input.GetKeyDown(KeyCode.T))
         {
-            OpenPopup(); // Abre o popup ao pressionar 'T'
+            MoveNextNPCToIntermediate(); // Move o próximo NPC para a posição intermediária
         }
     }
 
@@ -49,6 +52,41 @@ public class FirstNPCTrigger : MonoBehaviour
         {
             playerInTrigger = false; // Marca que o player saiu do trigger
         }
+    }
+
+    private void MoveNextNPCToIntermediate()
+    {
+        Transform nextNPC = GetNextNPC();
+
+        if (nextNPC != null)
+        {
+            NPCCtrl npcController = nextNPC.GetComponent<NPCCtrl>();
+            if (npcController != null)
+            {
+                npcController.MoveToDestination(posicaoIntermediaria);
+                StartCoroutine(WaitForNPCToReachPosition(npcController, posicaoIntermediaria));
+            }
+            else
+            {
+                NPCCtrlPri npcControllerPri = nextNPC.GetComponent<NPCCtrlPri>();
+                if (npcControllerPri != null)
+                {
+                    npcControllerPri.MoveToDestination(posicaoIntermediaria);
+                    StartCoroutine(WaitForNPCToReachPosition(npcControllerPri, posicaoIntermediaria));
+                }
+            }
+        }
+    }
+
+    private IEnumerator WaitForNPCToReachPosition(Component npcController, Transform targetPosition)
+    {
+        while (Vector3.Distance(npcController.transform.position, targetPosition.position) > 0.1f)
+        {
+            yield return null;
+        }
+
+        Debug.Log("NPC chegou na posição intermediária. Abrindo popup...");
+        OpenPopup(); // Abre o popup após o NPC chegar na posição intermediária
     }
 
     private void OpenPopup()
@@ -129,6 +167,20 @@ public class FirstNPCTrigger : MonoBehaviour
                     filaControllerPri.RemoveFirstNPCAndUpdateQueue();
                 }
             }
+
+            // Inicia a contagem para destruir o NPC após mover para a sala
+            StartCoroutine(DestruirNPC(npc, tempoParaDesaparecer));
+        }
+    }
+
+    private IEnumerator DestruirNPC(Transform npc, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (npc != null)
+        {
+            Debug.Log("NPC destruído após o tempo.");
+            Destroy(npc.gameObject);
         }
     }
 
@@ -162,6 +214,6 @@ public class FirstNPCTrigger : MonoBehaviour
             return npcCtrlPri.valorNPC;
         }
 
-        return -1; // Caso não encontre o NPC ou o tipo correto
+        return -1; // Caso não encontre o NPC ou o tipo correto 
     }
 }
