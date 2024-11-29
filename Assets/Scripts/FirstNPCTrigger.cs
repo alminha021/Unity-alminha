@@ -19,6 +19,10 @@ public class FirstNPCTrigger : MonoBehaviour
     private bool playerInTrigger = false; // Verifica se o player está no trigger
     public float tempoParaDesaparecer = 30f; // Tempo para o NPC desaparecer
 
+    // Variáveis para os sprites de acerto e erro
+    public Sprite spriteCorreto;  // Sprite para o acerto
+    public Sprite spriteErrado;   // Sprite para o erro
+
     private void Start()
     {
         popupPanel.SetActive(false);
@@ -80,12 +84,17 @@ public class FirstNPCTrigger : MonoBehaviour
 
     private IEnumerator WaitForNPCToReachPosition(Component npcController, Transform targetPosition)
     {
-        while (Vector3.Distance(npcController.transform.position, targetPosition.position) > 0.1f)
+        float tolerancia = 1.5f; // Defina a tolerância desejada (ajuste conforme necessário)
+        
+        Debug.Log("Aguardando NPC alcançar posição intermediária...");
+        
+        while (Vector3.Distance(npcController.transform.position, targetPosition.position) > tolerancia)
         {
+            //Debug.Log("Distância atual: " + Vector3.Distance(npcController.transform.position, targetPosition.position));
             yield return null;
         }
 
-        Debug.Log("NPC chegou na posição intermediária. Abrindo popup...");
+        Debug.Log("NPC chegou à posição intermediária.");
         OpenPopup(); // Abre o popup após o NPC chegar na posição intermediária
     }
 
@@ -110,14 +119,28 @@ public class FirstNPCTrigger : MonoBehaviour
         {
             int correctRoom = GetNPCDestinationRoom(nextNPC);
 
-            if (selectedRoom == correctRoom)
+            // Aqui, obtemos o SpriteHolder do NPC
+            Transform spriteHolder = nextNPC.Find("SpriteHolder");
+            if (spriteHolder != null)
             {
-                totalPoints += 10;
-                Debug.Log("CORRETO! +10 pontos. Total: " + totalPoints);
-            }
-            else
-            {
-                Debug.Log("ERRADO! O NPC foi enviado para a sala " + selectedRoom);
+                SpriteRenderer spriteRenderer = spriteHolder.GetComponent<SpriteRenderer>();
+
+                // Verifica se o SpriteRenderer foi encontrado
+                if (spriteRenderer != null)
+                {
+                    if (selectedRoom == correctRoom)
+                    {
+                        // Acertou a sala, pode colocar um sprite de "felicidade" ou algo que indique o acerto
+                        spriteRenderer.sprite = spriteCorreto;  // Substitua 'spriteCorreto' com o sprite desejado
+                        Debug.Log("CORRETO! +10 pontos. Total: " + totalPoints);
+                    }
+                    else
+                    {
+                        // Errou a sala, pode colocar um sprite de "tristeza" ou algo que indique o erro
+                        spriteRenderer.sprite = spriteErrado;  // Substitua 'spriteErrado' com o sprite desejado
+                        Debug.Log("ERRADO! O NPC foi enviado para a sala " + selectedRoom);
+                    }
+                }
             }
 
             // Mover o NPC para a sala selecionada

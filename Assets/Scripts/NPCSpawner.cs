@@ -30,7 +30,7 @@ public class NPCSpawner : MonoBehaviour
                 Debug.Log("cheguei3");
                 npcController.valorNPC = Random.Range(1, 4);
 
-                npcController.patientCondition = randomPatientCondition();
+               // npcController.patientCondition = randomPatientCondition();
 
                 // Registra o NPC no FilaTriggerController
                 filaController.RegisterNPC(npcInstance.transform);
@@ -40,10 +40,10 @@ public class NPCSpawner : MonoBehaviour
         }
     }
 
-    private PatientCondition randomPatientCondition()
-    {
-        return conditionLoader.patientConditions[Random.Range(0, conditionLoader.patientConditions.Length)];
-    }
+    //private PatientCondition randomPatientCondition()
+    //{
+    //    return conditionLoader.patientConditions[Random.Range(0, conditionLoader.patientConditions.Length)];
+   // }
 
     private Vector3 GetRandomPositionWithinArea()
     {
