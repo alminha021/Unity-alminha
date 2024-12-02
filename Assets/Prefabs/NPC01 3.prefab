@@ -906,7 +906,7 @@ GameObject:
   - component: {fileID: -1827832134830819554}
   - component: {fileID: 8697884905748067625}
   - component: {fileID: -804875594952371325}
-  - component: {fileID: 8493710375554757276}
+  - component: {fileID: 14860825189907092}
   m_Layer: 0
   m_Name: NPC01 3
   m_TagString: NPC
@@ -1081,7 +1081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   valorNPC: 1
   rotationSpeed: 5
---- !u!114 &8493710375554757276
+--- !u!114 &14860825189907092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1093,9 +1093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0066d9441b732940b3563b96e241ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  correctSprite: {fileID: -1761928468, guid: e48698c29e837c8468bef5a4bdc0f1c8, type: 3}
-  wrongSprite: {fileID: 21300000, guid: c7242ad8e4a920d40a3a76f7f21c08e1, type: 3}
-  spriteRenderer: {fileID: 6219149171421882434}
+  correctSprite: {fileID: 21300000, guid: 31001822dec546a4f93aaf0e7eca54ba, type: 3}
+  wrongSprite: {fileID: 21300000, guid: c57cc76915191414d9165bbc59ebb6b7, type: 3}
 --- !u!1 &1493786332724964
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,8 +2073,8 @@ Transform:
   m_GameObject: {fileID: 4529443503665530122}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.06677823, y: 2.134, z: -0.029}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.06677823, y: 2.421, z: -0.029}
+  m_LocalScale: {x: 5, y: 6.543312, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4517088957931228}
@@ -2126,7 +2125,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
