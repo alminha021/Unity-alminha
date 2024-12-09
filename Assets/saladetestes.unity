@@ -5702,8 +5702,11 @@ MonoBehaviour:
   conditionLoader: {fileID: 0}
   npcPrefabs:
   - {fileID: 1475707269996172, guid: d03033f0cdbccc24e88580438a9204a9, type: 3}
+  - {fileID: 1339332981911598, guid: bb6a9e1a89996494ba6c8f48144c28dd, type: 3}
+  - {fileID: 1823799248057678, guid: d62d3fcd72232fd48950013974a02475, type: 3}
+  - {fileID: 1627794777773752, guid: fa2821a73c63bd949b8ae15a006f30a3, type: 3}
   filaController: {fileID: 53163874}
-  npcCount: 1
+  npcCount: 4
 --- !u!65 &593665276
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9303,8 +9306,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcPrefabs:
   - {fileID: 1475707269996172, guid: 9b254b0c00a70804490b89037c4bcea8, type: 3}
+  - {fileID: 1339332981911598, guid: e195bb718ba968d4e83ba6c051f2fd64, type: 3}
+  - {fileID: 1823799248057678, guid: fc2bdc3e9c9d93b4f8b6f39550ce48e0, type: 3}
+  - {fileID: 1627794777773752, guid: c2ec944e26b3f634a850a7bca02ad496, type: 3}
   filaControllerPri: {fileID: 252545392}
-  npcCount: 1
+  npcCount: 2
 --- !u!4 &926845304 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4022769539775244, guid: 92b8dc8a06f9c1748adfda0caeb92532, type: 3}
