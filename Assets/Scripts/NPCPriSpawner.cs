@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class NPCPriSpawner : MonoBehaviour
 {
+    public PatientConditionLoader conditionLoader;
     public GameObject[] npcPrefabs;  // Array de diferentes prefabs de NPC
     public FilaTriggerPriCtrl filaControllerPri;  // Referência ao controlador da fila prioritária
     public int npcCount = 500;  // Quantidade inicial de NPCs prioritários para spawnar
@@ -21,17 +22,33 @@ public class NPCPriSpawner : MonoBehaviour
             // Spawna NPCs prioritários até o número total desejado
             for (int i = spawnedPriNPCs; i < npcCount; i++)
             {
-                Debug.Log("Spawning Priority NPC " + i);
+                // Debug.Log("Spawning Priority NPC " + i);
                 GameObject npcPrefab = npcPrefabs[Random.Range(0, npcPrefabs.Length)];  // Escolhe um NPC aleatório
                 Vector3 spawnPosition = GetRandomPositionWithinArea();  // Obtém uma posição aleatória dentro da área de spawn
                 GameObject npcInstance = Instantiate(npcPrefab, spawnPosition, Quaternion.identity);  // Cria o NPC
 
+
                 NPCCtrlPri npcController = npcInstance.GetComponent<NPCCtrlPri>();  // Obtém o controlador do NPC
                 if (npcController != null)
                 {
-                    npcController.valorNPC = Random.Range(1, 4);  // Atribui um valor aleatório ao NPC
-                    filaControllerPri.RegisterNPC(npcInstance.transform);  // Registra o NPC na fila prioritária
-                    Debug.Log("Priority NPC registered with value: " + npcController.valorNPC);
+                    //npcController.valorNPC = Random.Range(1, 4);  // Atribui um valor aleatório ao NPC
+                    int randomIndex = Random.Range(0, conditionLoader.patientConditions.Length);
+                    npcController.patientCondition = conditionLoader.patientConditions[randomIndex];
+
+                    if (npcController.patientCondition.tratamento == "Analgésico")
+                    {
+                        npcController.valorNPC = 1;
+                    } else if (npcController.patientCondition.tratamento == "Antibiótico")
+                    {
+                        npcController.valorNPC = 2;
+                    } else if (npcController.patientCondition.tratamento == "Vacina")
+                    {
+                        npcController.valorNPC = 3;
+                    }
+
+                    // Registra o NPC na fila
+                    filaControllerPri.RegisterNPC(npcInstance.transform);
+                    // Debug.Log("NPC registered: " + npcController.valorNPC);
                 }
 
                 spawnedPriNPCs++;  // Incrementa o contador de NPCs prioritários spawnados
@@ -43,7 +60,7 @@ public class NPCPriSpawner : MonoBehaviour
             npcCount += 2;  // Incrementa o limite de NPCs prioritários para 2
             Debug.Log("Número de NPCs prioritários na cena é baixo. Aumentando o limite de spawn para " + npcCount);
 
-            
+
 
             // Chama o método de spawn novamente, caso ainda seja necessário
             SpawnNPCs();

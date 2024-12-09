@@ -23,6 +23,8 @@ public class FirstNPCTrigger : MonoBehaviour
     public Sprite spriteCorreto;  // Sprite para o acerto
     public Sprite spriteErrado;   // Sprite para o erro
 
+    private Transform currentNPC;
+
     private void Start()
     {
         popupPanel.SetActive(false);
@@ -45,7 +47,7 @@ public class FirstNPCTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player triggered first NPC interaction!");
+            // Debug.Log("Player triggered first NPC interaction!");
             playerInTrigger = true; // Marca que o player entrou no trigger
         }
     }
@@ -64,6 +66,7 @@ public class FirstNPCTrigger : MonoBehaviour
 
         if (nextNPC != null)
         {
+
             NPCCtrl npcController = nextNPC.GetComponent<NPCCtrl>();
             if (npcController != null)
             {
@@ -79,22 +82,24 @@ public class FirstNPCTrigger : MonoBehaviour
                     StartCoroutine(WaitForNPCToReachPosition(npcControllerPri, posicaoIntermediaria));
                 }
             }
+
+            currentNPC = nextNPC;
         }
     }
 
     private IEnumerator WaitForNPCToReachPosition(Component npcController, Transform targetPosition)
     {
         float tolerancia = 1.5f; // Defina a tolerância desejada (ajuste conforme necessário)
-        
-        Debug.Log("Aguardando NPC alcançar posição intermediária...");
-        
+
+        // Debug.Log("Aguardando NPC alcançar posição intermediária...");
+
         while (Vector3.Distance(npcController.transform.position, targetPosition.position) > tolerancia)
         {
             //Debug.Log("Distância atual: " + Vector3.Distance(npcController.transform.position, targetPosition.position));
             yield return null;
         }
 
-        Debug.Log("NPC chegou à posição intermediária.");
+        // Debug.Log("NPC chegou à posição intermediária.");
         OpenPopup(); // Abre o popup após o NPC chegar na posição intermediária
     }
 
@@ -102,6 +107,21 @@ public class FirstNPCTrigger : MonoBehaviour
     {
         popupPanel.SetActive(true);
         playerController.enabled = false; // Desativa o movimento do player
+
+        if (currentNPC) {
+
+            Debug.Log(currentNPC);
+
+            PatientCondition patientCondition = getPatientCondition(currentNPC);
+            Debug.Log("queixa: " + patientCondition.queixa);
+
+            Text nomePaciente = GameObject.Find("NomePaciente").GetComponent<Text>();
+            nomePaciente.text = patientCondition.nome;
+
+            Text historiaPaciente = GameObject.Find("historiaPaciente").GetComponent<Text>();
+            historiaPaciente.text = patientCondition.queixa;
+
+        }
     }
 
     private void ClosePopup()
@@ -222,6 +242,23 @@ public class FirstNPCTrigger : MonoBehaviour
         return nextNPC;
     }
 
+    public PatientCondition getPatientCondition(Transform npc)
+    {
+        NPCCtrl npcCtrl = npc.GetComponent<NPCCtrl>();
+        if (npcCtrl != null)
+        {
+            return npcCtrl.patientCondition;
+        }
+
+        NPCCtrlPri npcCtrlPri = npc.GetComponent<NPCCtrlPri>();
+        if (npcCtrlPri != null)
+        {
+            return npcCtrlPri.patientCondition;
+        }
+
+        return null;
+    }
+
     public int GetNPCDestinationRoom(Transform npc)
     {
         // Obtém o valor associado ao NPC para determinar sua sala correta
@@ -237,6 +274,6 @@ public class FirstNPCTrigger : MonoBehaviour
             return npcCtrlPri.valorNPC;
         }
 
-        return -1; // Caso não encontre o NPC ou o tipo correto 
+        return -1; // Caso não encontre o NPC ou o tipo correto
     }
 }

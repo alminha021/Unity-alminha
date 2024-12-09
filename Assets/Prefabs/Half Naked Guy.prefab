@@ -728,7 +728,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage: 
+  m_WarningMessage:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -813,8 +813,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0066d9441b732940b3563b96e241ce6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   correctSprite: {fileID: 21300000, guid: 31001822dec546a4f93aaf0e7eca54ba, type: 3}
   wrongSprite: {fileID: 21300000, guid: c57cc76915191414d9165bbc59ebb6b7, type: 3}
 --- !u!23 &-8920408402764689968
@@ -869,15 +869,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e9995adb98d2824682610b38bf0a9a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   valorNPC: 0
   patientCondition:
-    age: 0
-    sex: 
-    disease: 
-    symptoms: []
-    treatment: []
+    nome:
+    queixas:
+    tratamento:
   rotationSpeed: 5
 --- !u!1 &1366659782624204
 GameObject:

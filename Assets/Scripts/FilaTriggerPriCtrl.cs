@@ -26,7 +26,7 @@ public class FilaTriggerPriCtrl : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNear = true; // Marca o player como próximo ao trigger
-            Debug.Log("Pressione 'T' para mover os NPCs de prioridade para a fila.");
+            // Debug.Log("Pressione 'T' para mover os NPCs de prioridade para a fila.");
         }
     }
 
@@ -56,7 +56,7 @@ public class FilaTriggerPriCtrl : MonoBehaviour
                 NPCCtrlPri npcController = npcInFila[i].GetComponent<NPCCtrlPri>();
                 if (npcController != null)
                 {
-                    Debug.Log("Movendo NPC Prioritário " + i + " para o ponto da fila");
+                    // Debug.Log("Movendo NPC Prioritário " + i + " para o ponto da fila");
                     npcController.MoveToQueue(filaPoints[i]);
                 }
             }

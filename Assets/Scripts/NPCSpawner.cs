@@ -30,7 +30,20 @@ public class NPCSpawner : MonoBehaviour
                 NPCCtrl npcController = npcInstance.GetComponent<NPCCtrl>();  // Obtém o controlador do NPC
                 if (npcController != null)
                 {
-                    npcController.valorNPC = Random.Range(1, 4);  // Atribui um valor aleatório ao NPC
+                    //npcController.valorNPC = Random.Range(1, 4);  // Atribui um valor aleatório ao NPC
+                    int randomIndex = Random.Range(0, conditionLoader.patientConditions.Length);
+                    npcController.patientCondition = conditionLoader.patientConditions[randomIndex];
+
+                    if (npcController.patientCondition.tratamento == "Analgésico")
+                    {
+                        npcController.valorNPC = 1;
+                    } else if (npcController.patientCondition.tratamento == "Antibiótico")
+                    {
+                        npcController.valorNPC = 2;
+                    } else if (npcController.patientCondition.tratamento == "Vacina")
+                    {
+                        npcController.valorNPC = 3;
+                    }
 
                     // Registra o NPC na fila
                     filaController.RegisterNPC(npcInstance.transform);
@@ -47,7 +60,7 @@ public class NPCSpawner : MonoBehaviour
             Debug.Log("Número de NPCs na cena é baixo. Aumentando o limite de spawn para " + npcCount);
 
             // Chama diretamente a função de mover os NPCs para a fila
-            
+
 
             // Chama o método de spawn novamente, caso ainda seja necessário
             SpawnNPCs();

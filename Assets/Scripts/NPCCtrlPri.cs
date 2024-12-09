@@ -9,6 +9,7 @@ public class NPCCtrlPri : MonoBehaviour
     public float rotationSpeed = 5f;
     private bool hasReachedRoom = false;
     private bool isDestroyed = false;
+    public PatientCondition patientCondition;
 
     private void Awake()
     {

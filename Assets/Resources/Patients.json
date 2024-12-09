@@ -1,0 +1,80 @@
+{
+    "conditions":
+    [
+        {
+            "nome": "João Oliveira",
+            "queixa": "Desde que acordei, sinto como se minha cabeça estivesse sendo apertada por uma faixa invisível. A luz parece estar mais forte do que o normal, e cada som parece ecoar em minha mente, piorando tudo. Já tentei deitar, beber água, mas a dor simplesmente não passa.",
+            "tratamento": "Analgésico"
+        },
+        {
+            "nome": "Maria Silva",
+            "queixa": "Hoje de manhã, enquanto tentava arrumar minha cama, uma pontada forte percorreu minhas costas. Desde então, qualquer movimento me faz sentir uma dor que vai e vem como uma corrente elétrica. Ficar sentada ou em pé por muito tempo está se tornando insuportável.",
+            "tratamento": "Analgésico"
+        },
+        {
+            "nome": "Carlos Mendes",
+            "queixa": "Acho que exagerei no esforço físico. Meu pescoço está tão rígido que mal consigo olhar para os lados sem sentir como se estivesse puxando um fio de aço. Dormir foi complicado, e agora a dor só parece piorar a cada minuto.",
+            "tratamento": "Analgésico"
+        },
+        {
+            "nome": "Ana Paula Costa",
+            "queixa": "Meu joelho está estranho. Primeiro, senti apenas um leve desconforto ao caminhar. Agora, parece que há uma dor persistente e profunda, principalmente quando tento subir escadas ou colocar peso sobre ele. Está começando a me preocupar.",
+            "tratamento": "Analgésico"
+        },
+        {
+            "nome": "Rafael Nogueira",
+            "queixa": "Há algo errado. Minha cabeça parece estar em uma constante pressão, como se fosse explodir. Qualquer esforço para me concentrar em algo parece amplificar a dor, e nem dormir ajudou a aliviar essa sensação incômoda.",
+            "tratamento": "Analgésico"
+        },
+        {
+            "nome": "Beatriz Almeida",
+            "queixa": "Minha garganta parece estar fechando. Cada vez que tento engolir, sinto uma dor cortante que parece piorar com o tempo. Ontem à noite tive calafrios, e agora meu corpo está quente como um forno, mesmo que eu me sinta fraca e cansada.",
+            "tratamento": "Antibiótico"
+        },
+        {
+            "nome": "Gabriel Santos",
+            "queixa": "Tudo começou com um pequeno corte no dedo, mas agora está inchado, avermelhado e quente ao toque. Parece que está latejando, e não consigo dobrar o dedo sem sentir uma dor que irradia até a mão inteira.",
+            "tratamento": "Antibiótico"
+        },
+        {
+            "nome": "Carolina Rocha",
+            "queixa": "Comecei com uma tosse leve há alguns dias, mas agora ela parece vir acompanhada de uma pressão no peito e dificuldade para respirar. Tenho me sentido tão fraca que até levantar da cama é um esforço, e a febre só piora minha situação.",
+            "tratamento": "Antibiótico"
+        },
+        {
+            "nome": "Marcelo Ferreira",
+            "queixa": "Ao urinar, sinto um desconforto ardente, como se algo estivesse irritando meu sistema. Parece que estou indo ao banheiro com mais frequência, mas a cada vez a dor é pior. Agora, até minha barriga está começando a doer.",
+            "tratamento": "Antibiótico"
+        },
+        {
+            "nome": "Juliana Matos",
+            "queixa": "Desde que a dor no ouvido começou, tudo parece abafado e estranho. Hoje, percebi um líquido saindo do ouvido, e o desconforto aumentou ao ponto de ser impossível ignorar. Estou começando a ficar preocupada.",
+            "tratamento": "Antibiótico"
+        },
+        {
+            "nome": "Ricardo Souza",
+            "queixa": "No meu trabalho, estou constantemente rodeado por pessoas. Com o noticiário alertando sobre surtos de doenças sazonais, sinto que é só uma questão de tempo até algo me atingir, a menos que eu tome alguma medida para me proteger.",
+            "tratamento": "Vacina"
+        },
+        {
+            "nome": "Fernanda Lemos",
+            "queixa": "Em breve, vou viajar para uma área conhecida por ser foco de doenças tropicais. Mesmo tomando todas as precauções, não consigo evitar a sensação de que é melhor estar protegida contra algo que pode ser prevenido antes mesmo de começar.",
+            "tratamento": "Vacina"
+        },
+        {
+            "nome": "Lucas Prado",
+            "queixa": "Ultimamente, tenho ouvido muito sobre a importância de se proteger contra doenças como o sarampo, especialmente com surtos em lugares onde menos se espera. Não sei se estou completamente protegido, e prefiro evitar qualquer risco.",
+            "tratamento": "Vacina"
+        },
+        {
+            "nome": "Patrícia Gomes",
+            "queixa": "Com tantas notícias alarmantes sobre febre amarela em regiões próximas, é difícil não pensar no que poderia acontecer comigo. Quero estar preparada e segura antes que algo fora do meu controle aconteça.",
+            "tratamento": "Vacina"
+        },
+        {
+            "nome": "André Moraes",
+            "queixa": "Estou prestes a começar uma nova fase da vida, estudando fora do país. Eles pediram alguns documentos médicos, inclusive a prova de vacinação. Quero garantir que tudo está em ordem para não ter problemas mais tarde.",
+            "tratamento": "Vacina"
+        }
+    ]
+}
