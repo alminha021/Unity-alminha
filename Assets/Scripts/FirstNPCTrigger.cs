@@ -15,7 +15,8 @@ public class FirstNPCTrigger : MonoBehaviour
     public Transform destino3;
     public Transform posicaoIntermediaria; // Posição intermediária
     public PlayerController playerController; // Referência ao controlador do player
-    private int totalPoints = 0;
+    private int totalPoints = 30;
+    private int totalPatients = 0;
     private bool playerInTrigger = false; // Verifica se o player está no trigger
     public float tempoParaDesaparecer = 30f; // Tempo para o NPC desaparecer
 
@@ -113,7 +114,6 @@ public class FirstNPCTrigger : MonoBehaviour
             Debug.Log(currentNPC);
 
             PatientCondition patientCondition = getPatientCondition(currentNPC);
-            Debug.Log("queixa: " + patientCondition.queixa);
 
             Text nomePaciente = GameObject.Find("NomePaciente").GetComponent<Text>();
             nomePaciente.text = patientCondition.nome;
@@ -152,16 +152,26 @@ public class FirstNPCTrigger : MonoBehaviour
                     {
                         // Acertou a sala, pode colocar um sprite de "felicidade" ou algo que indique o acerto
                         spriteRenderer.sprite = spriteCorreto;  // Substitua 'spriteCorreto' com o sprite desejado
+                        totalPoints += 10;
                         Debug.Log("CORRETO! +10 pontos. Total: " + totalPoints);
                     }
                     else
                     {
                         // Errou a sala, pode colocar um sprite de "tristeza" ou algo que indique o erro
                         spriteRenderer.sprite = spriteErrado;  // Substitua 'spriteErrado' com o sprite desejado
+                        totalPoints -= 10;
                         Debug.Log("ERRADO! O NPC foi enviado para a sala " + selectedRoom);
                     }
+                    totalPatients++;
                 }
             }
+
+            Text pacientes = GameObject.Find("Text_Pacientes").GetComponent<Text>();
+            pacientes.text = totalPatients.ToString();
+
+            Text reputacao = GameObject.Find("Text_Pontuacao").GetComponent<Text>();
+            reputacao.text = totalPoints.ToString();
+
 
             // Mover o NPC para a sala selecionada
             MoveNPCToRoom(nextNPC, selectedRoom);

@@ -14935,7 +14935,7 @@ GameObject:
   - component: {fileID: 1455206908}
   - component: {fileID: 1455206907}
   m_Layer: 0
-  m_Name: Text_TotalPacientes
+  m_Name: Text_Pontuacao
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
