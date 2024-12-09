@@ -2,51 +2,63 @@ using UnityEngine;
 
 public class NPCSpawner : MonoBehaviour
 {
-    public PatientConditionLoader conditionLoader;
+    public PatientConditionLoader conditionLoader;  // Referência para carregar as condições dos pacientes
     public GameObject[] npcPrefabs;  // Array de diferentes prefabs de NPC
-    public FilaTriggerCtrl filaController;  // Referência ao controlador da fila
-    public int npcCount = 5;  // Quantidade de NPCs para spawnar
+    public FilaTriggerCtrl filaController;  // Referência ao controlador da fila regular
+    public int npcCount = 500;  // Quantidade inicial de NPCs para spawnar
+    private int spawnedNPCs = 0;  // Contador de NPCs já spawnados
     private BoxCollider spawnArea;
 
     void Start()
     {
         spawnArea = GetComponent<BoxCollider>();  // Obtém o BoxCollider para a área de spawn
-        SpawnNPCs();
     }
 
-    void SpawnNPCs()
+    public void SpawnNPCs()
     {
-        for (int i = 0; i < 6; i++)
+        // Verifica o número de NPCs na cena e ajusta o limite se necessário
+        if (spawnedNPCs < npcCount)
         {
-            Debug.Log("spawn");
-            GameObject npcPrefab = npcPrefabs[Random.Range(0, npcPrefabs.Length)];
-            Vector3 spawnPosition = GetRandomPositionWithinArea();
-            GameObject npcInstance = Instantiate(npcPrefab, spawnPosition, Quaternion.identity);
-            Debug.Log("cheguei");
-            NPCCtrl npcController = npcInstance.GetComponent<NPCCtrl>();
-            Debug.Log("cheguei2");
-            if (npcController != null)
+            // Spawna NPCs até atingir o número total desejado
+            for (int i = spawnedNPCs; i < npcCount; i++)
             {
-                Debug.Log("cheguei3");
-                npcController.valorNPC = Random.Range(1, 4);
+                Debug.Log("Spawning NPC " + i);
+                GameObject npcPrefab = npcPrefabs[Random.Range(0, npcPrefabs.Length)];  // Escolhe um NPC aleatório
+                Vector3 spawnPosition = GetRandomPositionWithinArea();  // Obtém uma posição aleatória dentro da área de spawn
+                GameObject npcInstance = Instantiate(npcPrefab, spawnPosition, Quaternion.identity);  // Cria o NPC
 
-               // npcController.patientCondition = randomPatientCondition();
+                NPCCtrl npcController = npcInstance.GetComponent<NPCCtrl>();  // Obtém o controlador do NPC
+                if (npcController != null)
+                {
+                    npcController.valorNPC = Random.Range(1, 4);  // Atribui um valor aleatório ao NPC
 
-                // Registra o NPC no FilaTriggerController
-                filaController.RegisterNPC(npcInstance.transform);
-                Debug.Log("NPC registered: " + npcController.valorNPC + " with " + npcController.patientCondition.disease);
+                    // Registra o NPC na fila
+                    filaController.RegisterNPC(npcInstance.transform);
+                    Debug.Log("NPC registered: " + npcController.valorNPC);
+                }
+
+                spawnedNPCs++;  // Incrementa o contador de NPCs spawnados
             }
-            Debug.Log("fim");
+        }
+        else
+        {
+            // Se o número de NPCs na cena for menor que o limite, aumenta o limite e tenta novamente
+            npcCount += 6;  // Incrementa o limite de NPCs para 6
+            Debug.Log("Número de NPCs na cena é baixo. Aumentando o limite de spawn para " + npcCount);
+
+            // Chama diretamente a função de mover os NPCs para a fila
+            
+
+            // Chama o método de spawn novamente, caso ainda seja necessário
+            SpawnNPCs();
+            Debug.Log("WAVE REGULAR SE APORXIMA");
+            filaController.MoveNPCsToFila();
         }
     }
 
-    //private PatientCondition randomPatientCondition()
-    //{
-    //    return conditionLoader.patientConditions[Random.Range(0, conditionLoader.patientConditions.Length)];
-   // }
-
     private Vector3 GetRandomPositionWithinArea()
     {
+        // Obtém uma posição aleatória dentro da área definida pelo BoxCollider
         Vector3 basePosition = spawnArea.transform.position;
         Vector3 size = spawnArea.size;
 

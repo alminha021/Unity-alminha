@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class FilaTriggerCtrl : MonoBehaviour
 {
-    public Transform[] filaPoints;
-    private Transform[] npcInFila;
-    private int currentNPCIndex = 0;
-
+    public Transform[] filaPoints;  // Pontos para onde os NPCs devem ir
+    private Transform[] npcInFila;  // NPCs que estão na fila
+    private int currentNPCIndex = 0;  // Índice atual na fila
     private bool isPlayerNear = false; // Verifica se o player está próximo
 
     private void Start()
@@ -48,7 +47,7 @@ public class FilaTriggerCtrl : MonoBehaviour
         }
     }
 
-    private void MoveNPCsToFila()
+    public void MoveNPCsToFila()
     {
         for (int i = 0; i < currentNPCIndex && i < filaPoints.Length; i++)
         {
@@ -81,5 +80,11 @@ public class FilaTriggerCtrl : MonoBehaviour
     public Transform GetFirstNPC()
     {
         return currentNPCIndex > 0 ? npcInFila[0] : null;
+    }
+
+    // Método para verificar se há NPCs na fila
+    public bool HasNPCs()
+    {
+        return currentNPCIndex > 0;
     }
 }

@@ -47,7 +47,7 @@ public class FilaTriggerPriCtrl : MonoBehaviour
         }
     }
 
-    private void MoveNPCsToFila()
+    public void MoveNPCsToFila()
     {
         for (int i = 0; i < currentNPCIndex && i < filaPoints.Length; i++)
         {
@@ -80,5 +80,11 @@ public class FilaTriggerPriCtrl : MonoBehaviour
     public Transform GetFirstNPC()
     {
         return currentNPCIndex > 0 ? npcInFila[0] : null;
+    }
+
+    // Método para verificar se há NPCs na fila
+    public bool HasNPCs()
+    {
+        return currentNPCIndex > 0;
     }
 }

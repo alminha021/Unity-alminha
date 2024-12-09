@@ -9,6 +9,7 @@ public class NPCCtrl : MonoBehaviour
     private Animator animator;
     public float rotationSpeed = 5f;
     private bool hasReachedRoom = false;
+    private bool isDestroyed = false;
 
     private void Awake()
     {
@@ -27,6 +28,13 @@ public class NPCCtrl : MonoBehaviour
 
         // Define a animação de movimento
         animator.SetBool("isRunning", agent.velocity.sqrMagnitude > 0.01f);
+
+        // Verifica se o NPC chegou ao destino e deve ser destruído
+        if (hasReachedRoom && !isDestroyed)
+        {
+            Invoke("OnNPCDestroyedOrMoved", 15f);
+            isDestroyed = true; // Garantir que a verificação só ocorra uma vez
+        }
     }
 
     public void MoveToQueue(Transform target)
@@ -44,16 +52,20 @@ public class NPCCtrl : MonoBehaviour
         {
             agent.SetDestination(destination.position);
             hasReachedRoom = true;
-            //Invoke("DestroyNPC", 15f);
+            // Marcar o NPC para ser verificado
+            isDestroyed = false; // Reinicia o flag quando o NPC se move
         }
     }
 
-    private void DestroyNPC()
+    private void OnNPCDestroyedOrMoved()
     {
-        if (hasReachedRoom)
+        if (hasReachedRoom && !isDestroyed)
         {
-            //Destroy(gameObject);
-            Debug.Log("NPC destroyed debug npcctrl");
+            // Aqui você pode chamar a função que deve ser executada após a movimentação ou destruição
+            Debug.Log("NPC moved or destroyed!");
+            // Você pode destruir o NPC ou realizar outra lógica aqui
+            Destroy(gameObject);
+            isDestroyed = true; // Marca como destruído
         }
     }
 }

@@ -4,44 +4,58 @@ public class NPCPriSpawner : MonoBehaviour
 {
     public GameObject[] npcPrefabs;  // Array de diferentes prefabs de NPC
     public FilaTriggerPriCtrl filaControllerPri;  // Referência ao controlador da fila prioritária
-    public int npcCount = 5;  // Quantidade de NPCs para spawnar
+    public int npcCount = 500;  // Quantidade inicial de NPCs prioritários para spawnar
+    private int spawnedPriNPCs = 0;  // Contador de NPCs prioritários já spawnados
     private BoxCollider spawnArea;
 
     void Start()
     {
         spawnArea = GetComponent<BoxCollider>();  // Obtém o BoxCollider para a área de spawn
-        
-        // Verificar se a filaControllerPri está atribuída
-        if (filaControllerPri == null)
-        {
-            Debug.LogError("filaControllerPri não está atribuída no NPCPriSpawner!");
-            return; // Se não estiver atribuída, não continua a execução
-        }
-
-        SpawnNPCs();
     }
 
-    void SpawnNPCs()
+    public void SpawnNPCs()
     {
-        for (int i = 0; i < npcCount; i++)  // Spawn de NPCs prioritários
+        // Verifica o número de NPCs prioritários na cena e ajusta o limite se necessário
+        if (spawnedPriNPCs < npcCount)
         {
-            Debug.Log("Spawning Priority NPC " + i);
-            GameObject npcPrefab = npcPrefabs[Random.Range(0, npcPrefabs.Length)];  // Seleção aleatória do prefab
-            Vector3 spawnPosition = GetRandomPositionWithinArea();  // Posição de spawn aleatória
-            GameObject npcInstance = Instantiate(npcPrefab, spawnPosition, Quaternion.identity);  // Instancia o NPC
-
-            NPCCtrlPri npcController = npcInstance.GetComponent<NPCCtrlPri>();  // Obtém o controlador do NPC
-            if (npcController != null)
+            // Spawna NPCs prioritários até o número total desejado
+            for (int i = spawnedPriNPCs; i < npcCount; i++)
             {
-                npcController.valorNPC = Random.Range(1, 4);  // Atribui um valor aleatório para o NPC
-                filaControllerPri.RegisterNPC(npcInstance.transform);  // Registra o NPC na fila prioritária
-                Debug.Log("Priority NPC registered with value: " + npcController.valorNPC);
+                Debug.Log("Spawning Priority NPC " + i);
+                GameObject npcPrefab = npcPrefabs[Random.Range(0, npcPrefabs.Length)];  // Escolhe um NPC aleatório
+                Vector3 spawnPosition = GetRandomPositionWithinArea();  // Obtém uma posição aleatória dentro da área de spawn
+                GameObject npcInstance = Instantiate(npcPrefab, spawnPosition, Quaternion.identity);  // Cria o NPC
+
+                NPCCtrlPri npcController = npcInstance.GetComponent<NPCCtrlPri>();  // Obtém o controlador do NPC
+                if (npcController != null)
+                {
+                    npcController.valorNPC = Random.Range(1, 4);  // Atribui um valor aleatório ao NPC
+                    filaControllerPri.RegisterNPC(npcInstance.transform);  // Registra o NPC na fila prioritária
+                    Debug.Log("Priority NPC registered with value: " + npcController.valorNPC);
+                }
+
+                spawnedPriNPCs++;  // Incrementa o contador de NPCs prioritários spawnados
             }
+        }
+        else
+        {
+            // Se o número de NPCs prioritários na cena for menor que o limite, aumenta o limite e tenta novamente
+            npcCount += 2;  // Incrementa o limite de NPCs prioritários para 2
+            Debug.Log("Número de NPCs prioritários na cena é baixo. Aumentando o limite de spawn para " + npcCount);
+
+            
+
+            // Chama o método de spawn novamente, caso ainda seja necessário
+            SpawnNPCs();
+            // Chama diretamente a função de mover os NPCs para a fila prioritária
+            filaControllerPri.MoveNPCsToFila();
+            Debug.Log("WAVE PRIORITARIA SE APORXIMA");
         }
     }
 
     private Vector3 GetRandomPositionWithinArea()
     {
+        // Obtém uma posição aleatória dentro da área definida pelo BoxCollider
         Vector3 basePosition = spawnArea.transform.position;
         Vector3 size = spawnArea.size;
 
