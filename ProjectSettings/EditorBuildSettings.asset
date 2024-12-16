@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/saladetestes.unity
     guid: 11dc4797c5cfc9f4798657da86b21466
+  - enabled: 1
+    path: Assets/Victory.unity
+    guid: b4db8410423d22e4cacff4aa8565334c
+  - enabled: 1
+    path: Assets/GameOver.unity
+    guid: 0b463d681bbdb2b4ab631450160cebf6
   m_configObjects: {}

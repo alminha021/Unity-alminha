@@ -2,39 +2,20 @@ using UnityEngine;
 
 public class FilaTriggerPriCtrl : MonoBehaviour
 {
-    public Transform[] filaPoints;  // Pontos para onde os NPCs devem ir
-    private Transform[] npcInFila;  // NPCs que estão na fila
-    private int currentNPCIndex = 0;  // Índice atual na fila
-    private bool isPlayerNear = false; // Verifica se o player está próximo
+    public Transform[] filaPoints; // Pontos para onde os NPCs devem ir
+    private Transform[] npcInFila; // NPCs que estão na fila
+    private int currentNPCIndex = 0; // Índice atual na fila
 
     private void Start()
     {
         npcInFila = new Transform[filaPoints.Length];
     }
 
-    private void Update()
-    {
-        // Verifica se o player está próximo e se a tecla "T" foi pressionada
-        if (isPlayerNear && Input.GetKeyDown(KeyCode.T))
-        {
-            MoveNPCsToFila();
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            isPlayerNear = true; // Marca o player como próximo ao trigger
-            // Debug.Log("Pressione 'T' para mover os NPCs de prioridade para a fila.");
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerNear = false; // Marca o player como distante ao sair do trigger
+            MoveNPCsToFila(); // Move os NPCs automaticamente quando o player entra no Trigger
         }
     }
 
@@ -56,8 +37,7 @@ public class FilaTriggerPriCtrl : MonoBehaviour
                 NPCCtrlPri npcController = npcInFila[i].GetComponent<NPCCtrlPri>();
                 if (npcController != null)
                 {
-                    // Debug.Log("Movendo NPC Prioritário " + i + " para o ponto da fila");
-                    npcController.MoveToQueue(filaPoints[i]);
+                    npcController.MoveToQueue(filaPoints[i]); // Move cada NPC prioritário para seu ponto na fila
                 }
             }
         }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class FirstNPCTrigger : MonoBehaviour
 {
@@ -154,6 +155,10 @@ public class FirstNPCTrigger : MonoBehaviour
                         spriteRenderer.sprite = spriteCorreto;  // Substitua 'spriteCorreto' com o sprite desejado
                         totalPoints += 10;
                         Debug.Log("CORRETO! +10 pontos. Total: " + totalPoints);
+                        if (totalPoints >= 150)
+                            {
+                            SceneManager.LoadScene("Victory"); // Troca para a cena de vitória
+                            }
                     }
                     else
                     {
@@ -161,6 +166,10 @@ public class FirstNPCTrigger : MonoBehaviour
                         spriteRenderer.sprite = spriteErrado;  // Substitua 'spriteErrado' com o sprite desejado
                         totalPoints -= 10;
                         Debug.Log("ERRADO! O NPC foi enviado para a sala " + selectedRoom);
+                        if (totalPoints < 0)
+                            {
+                            SceneManager.LoadScene("GameOver"); // Troca para a cena de derrota
+                            }
                     }
                     totalPatients++;
                 }
